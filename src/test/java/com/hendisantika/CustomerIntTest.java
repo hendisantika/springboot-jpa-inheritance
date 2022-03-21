@@ -1,13 +1,18 @@
 package com.hendisantika;
 
+import com.hendisantika.controller.CustomerController;
 import com.hendisantika.repository.CustomerRepository;
 import com.hendisantika.service.CustomerService;
 import javafx.application.Application;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,4 +38,14 @@ public class CustomerIntTest {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @PostConstruct
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        CustomerController customerController = new CustomerController(customerService);
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(customerController)
+                .build();
+    }
 }
