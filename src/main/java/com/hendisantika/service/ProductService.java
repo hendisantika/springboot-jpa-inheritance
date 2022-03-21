@@ -1,5 +1,6 @@
 package com.hendisantika.service;
 
+import com.hendisantika.entity.Product;
 import com.hendisantika.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,5 +23,15 @@ public class ProductService {
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    /**
+     * Storing new product
+     *
+     * @param product product payload
+     * @return stored Product Object
+     */
+    public Product store(Product product) {
+        return productRepository.save(product);
     }
 }
