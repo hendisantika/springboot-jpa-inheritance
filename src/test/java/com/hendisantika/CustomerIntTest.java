@@ -98,4 +98,22 @@ public class CustomerIntTest {
                 .andExpect(jsonPath("$.sourceIdentifier").value(customer.getSourceIdentifier()))
                 .andExpect(jsonPath("$.active").value(customer.getActive()));
     }
+
+    @Test
+    @Transactional
+    public void getAllCustomersTest() throws Exception {
+        Customer customer = createCustomer();
+        customerRepository.save(customer);
+
+        mockMvc
+                .perform(get(API)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[*].validFrom").value(hasItem(customer.getValidFrom().getTime())))
+                .andExpect(jsonPath("$.[*].validTo").exists())
+                .andExpect(jsonPath("$.[*].sourceIdentifier").value(hasItem(customer.getSourceIdentifier())))
+                .andExpect(jsonPath("$.[*].active").value(hasItem(customer.getActive())));
+    }
+
 }
