@@ -5,6 +5,8 @@ import com.hendisantika.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : springboot-jpa-inheritance
@@ -33,5 +35,16 @@ public class ProductService {
      */
     public Product store(Product product) {
         return productRepository.save(product);
+    }
+
+    /**
+     * Getting product by id
+     *
+     * @param id product identifier
+     * @return Optional of Product Object
+     */
+    @Transactional(readOnly = true)
+    public Optional<Product> findOne(Long id) {
+        return productRepository.findById(id);
     }
 }
