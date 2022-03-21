@@ -5,6 +5,7 @@ import com.hendisantika.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,5 +47,15 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Optional<Product> findOne(Long id) {
         return productRepository.findById(id);
+    }
+
+    /**
+     * Getting all products
+     *
+     * @return List of Product Objects
+     */
+    @Transactional(readOnly = true)
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 }
