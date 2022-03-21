@@ -3,6 +3,7 @@ package com.hendisantika;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.controller.CustomerController;
 import com.hendisantika.entity.Customer;
+import com.hendisantika.entity.CustomerType;
 import com.hendisantika.repository.CustomerRepository;
 import com.hendisantika.service.CustomerService;
 import javafx.application.Application;
@@ -116,4 +117,15 @@ public class CustomerIntTest {
                 .andExpect(jsonPath("$.[*].active").value(hasItem(customer.getActive())));
     }
 
+    private Customer createCustomer() {
+        Customer customer = new Customer();
+        customer.setFullName("Heril Muratovic");
+        customer.setAddress("Dummy address");
+        customer.setActive(Boolean.TRUE);
+        customer.setValidFrom(new Date());
+        customer.setSourceIdentifier("dummy-identifier");
+        customer.setCustomerType(CustomerType.INDIVIDUAL);
+
+        return customer;
+    }
 }
