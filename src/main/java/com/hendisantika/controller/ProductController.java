@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -56,6 +57,19 @@ public class ProductController {
         Optional<Product> productOptional = productService.findOne(id);
         return productOptional
                 .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * Get all products | GET : /api/product
+     *
+     * @return ResponseEntity with List of Product objects as response body and http status code 200
+     */
+    @GetMapping
+    public ResponseEntity<List<Product>> getAll() {
+        List<Product> products = productService.findAll();
+        return Optional.of(products)
+                .map(productList -> new ResponseEntity<>(productList, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
