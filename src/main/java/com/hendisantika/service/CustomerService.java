@@ -5,6 +5,8 @@ import com.hendisantika.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : springboot-jpa-inheritance
@@ -35,4 +37,14 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    /**
+     * Get customer by id
+     *
+     * @param id customer identifier
+     * @return Optional of Customer Object
+     */
+    @Transactional(readOnly = true)
+    public Optional<Customer> findOne(Long id) {
+        return customerRepository.findById(id);
+    }
 }
