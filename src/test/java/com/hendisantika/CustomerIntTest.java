@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,5 +80,22 @@ public class CustomerIntTest {
         assertThat(storedCustomer.getValidTo()).isEqualTo(customer.getValidTo());
         assertThat(storedCustomer.getSourceIdentifier()).isEqualTo(customer.getSourceIdentifier());
         assertThat(storedCustomer.getActive()).isEqualTo(customer.getActive());
+    }
+
+    @Test
+    @Transactional
+    public void getCustomerByIdTest() throws Exception {
+        Customer customer = createCustomer();
+        customerRepository.save(customer);
+
+        mockMvc
+                .perform(get(API.concat("/").concat(customer.getId().toString()))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.validFrom").value(customer.getValidFrom()))
+                .andExpect(jsonPath("$.validTo").isEmpty())
+                .andExpect(jsonPath("$.sourceIdentifier").value(customer.getSourceIdentifier()))
+                .andExpect(jsonPath("$.active").value(customer.getActive()));
     }
 }
