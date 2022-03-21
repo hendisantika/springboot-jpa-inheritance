@@ -5,12 +5,10 @@ import com.hendisantika.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,5 +43,19 @@ public class ProductController {
         }
         Product storedProduct = productService.store(product);
         return new ResponseEntity<>(storedProduct, HttpStatus.CREATED);
+    }
+
+    /**
+     * Get product by unique identifier | GET : /api/product/{id}
+     *
+     * @param id customer identifier
+     * @return ResponseEntity with Product as response body and http status code 200
+     */
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Product> getOneById(@PathVariable Long id) {
+        Optional<Product> productOptional = productService.findOne(id);
+        return productOptional
+                .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
