@@ -5,12 +5,10 @@ import com.hendisantika.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,5 +48,19 @@ public class CustomerController {
         }
         Customer storedCustomer = customerService.store(customer);
         return new ResponseEntity<>(storedCustomer, HttpStatus.CREATED);
+    }
+
+    /**
+     * Get customer by unique identifier | GET : /api/customer/{id}
+     *
+     * @param id customer identifier
+     * @return ResponseEntity with Customer as response body and http status code 200
+     */
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Customer> getOneById(@PathVariable Long id) {
+        Optional<Customer> customerOptional = customerService.findOne(id);
+        return customerOptional
+                .map(customer -> new ResponseEntity<>(customer, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
