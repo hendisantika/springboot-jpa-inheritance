@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -61,6 +62,19 @@ public class CustomerController {
         Optional<Customer> customerOptional = customerService.findOne(id);
         return customerOptional
                 .map(customer -> new ResponseEntity<>(customer, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * Get all customers | GET : /api/customer
+     *
+     * @return ResponseEntity with List of Customer objects as response body and http status code 200
+     */
+    @GetMapping
+    public ResponseEntity<List<Customer>> getAll() {
+        List<Customer> customers = customerService.findAll();
+        return Optional.of(customers)
+                .map(customerList -> new ResponseEntity<>(customerList, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
