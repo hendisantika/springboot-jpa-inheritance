@@ -5,6 +5,7 @@ import com.hendisantika.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,5 +47,15 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public Optional<Customer> findOne(Long id) {
         return customerRepository.findById(id);
+    }
+
+    /**
+     * Get all customers
+     *
+     * @return List of Customer Objects
+     */
+    @Transactional(readOnly = true)
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 }
