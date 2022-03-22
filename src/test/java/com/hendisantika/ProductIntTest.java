@@ -1,17 +1,27 @@
 package com.hendisantika;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.controller.ProductController;
+import com.hendisantika.entity.Product;
 import com.hendisantika.repository.ProductRepository;
 import com.hendisantika.service.ProductService;
+import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.RequestEntity.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,5 +56,26 @@ public class ProductIntTest {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(productController)
                 .build();
+    }
+
+    @Test
+    @Transactional
+    public void storeProductTest() throws Exception {
+        Product product = createProduct();
+        MvcResult mvcResult = mockMvc
+                .perform(post(API)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(new ObjectMapper().writeValueAsBytes(product))
+                )
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Product storedProduct = new ObjectMapper().readValue(
+                mvcResult.getResponse().getContentAsString(), Product.class
+        );
+        assertThat(storedProduct.getValidFrom()).isEqualTo(product.getValidFrom());
+        assertThat(storedProduct.getValidTo()).isEqualTo(product.getValidTo());
+        assertThat(storedProduct.getSourceIdentifier()).isEqualTo(product.getSourceIdentifier());
+        assertThat(storedProduct.getActive()).isEqualTo(product.getActive());
     }
 }
