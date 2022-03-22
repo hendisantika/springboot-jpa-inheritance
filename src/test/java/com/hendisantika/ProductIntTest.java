@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -114,5 +116,16 @@ public class ProductIntTest {
                 .andExpect(jsonPath("$.[*].validTo").exists())
                 .andExpect(jsonPath("$.[*].sourceIdentifier").value(hasItem(product.getSourceIdentifier())))
                 .andExpect(jsonPath("$.[*].active").value(hasItem(product.getActive())));
+    }
+
+    private Product createProduct() {
+        Product product = new Product();
+        product.setCatalogName("dummy-catalog-name");
+        product.setDescription("dummy-description");
+        product.setPrice(BigDecimal.TEN);
+        product.setValidFrom(new Date());
+        product.setSourceIdentifier("dummy-source-identifier");
+
+        return product;
     }
 }
