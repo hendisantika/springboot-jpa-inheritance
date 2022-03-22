@@ -1,12 +1,17 @@
 package com.hendisantika;
 
+import com.hendisantika.controller.ProductController;
 import com.hendisantika.repository.ProductRepository;
 import com.hendisantika.service.ProductService;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,4 +37,14 @@ public class ProductIntTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @PostConstruct
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        ProductController productController = new ProductController(productService);
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(productController)
+                .build();
+    }
 }
