@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.RequestEntity.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -77,5 +79,22 @@ public class ProductIntTest {
         assertThat(storedProduct.getValidTo()).isEqualTo(product.getValidTo());
         assertThat(storedProduct.getSourceIdentifier()).isEqualTo(product.getSourceIdentifier());
         assertThat(storedProduct.getActive()).isEqualTo(product.getActive());
+    }
+
+    @Test
+    @Transactional
+    public void getProductByIdTest() throws Exception {
+        Product product = createProduct();
+        productRepository.save(product);
+
+        mockMvc
+                .perform(get(API.concat("/").concat(product.getId().toString()))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.validFrom").value(product.getValidFrom()))
+                .andExpect(jsonPath("$.validTo").isEmpty())
+                .andExpect(jsonPath("$.sourceIdentifier").value(product.getSourceIdentifier()))
+                .andExpect(jsonPath("$.active").value(product.getActive()));
     }
 }
