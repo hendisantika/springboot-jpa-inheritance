@@ -6,7 +6,6 @@ import com.hendisantika.entity.Customer;
 import com.hendisantika.entity.CustomerType;
 import com.hendisantika.repository.CustomerRepository;
 import com.hendisantika.service.CustomerService;
-import javafx.application.Application;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +19,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -37,9 +38,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Time: 21.31
  * To change this template use File | Settings | File Templates.
  */
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = SpringbootJpaInheritanceApplication.class)
 @AutoConfigureMockMvc
-@ActiveProfiles(profiles = "no-liquibase")
+@ActiveProfiles(profiles = "default")
 public class CustomerIntTest {
 
     private static final String API = "/api/customer";
@@ -119,8 +120,8 @@ public class CustomerIntTest {
 
     private Customer createCustomer() {
         Customer customer = new Customer();
-        customer.setFullName("Heril Muratovic");
-        customer.setAddress("Dummy address");
+        customer.setFullName("Uzumaki Naruto");
+        customer.setAddress("Konohagakure");
         customer.setActive(Boolean.TRUE);
         customer.setValidFrom(new Date());
         customer.setSourceIdentifier("dummy-identifier");

@@ -1,6 +1,5 @@
 package com.hendisantika.entity;
 
-import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
@@ -19,7 +18,6 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @MappedSuperclass
-@Data
 public abstract class CommonHistoryEntity implements Serializable {
 
     private static final long serialVersionUID = -20200109182700L;
@@ -36,4 +34,36 @@ public abstract class CommonHistoryEntity implements Serializable {
 
     @Column(name = "source_identifier")
     private String sourceIdentifier;
+
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public String getSourceIdentifier() {
+        return sourceIdentifier;
+    }
+
+    public void setSourceIdentifier(String sourceIdentifier) {
+        this.sourceIdentifier = sourceIdentifier;
+    }
 }

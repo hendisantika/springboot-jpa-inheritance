@@ -1,13 +1,10 @@
 package com.hendisantika.entity;
 
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,9 +20,6 @@ import javax.persistence.*;
 @Table(name = "customer")
 @DynamicInsert
 @DynamicUpdate
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Customer extends CommonHistoryEntity {
 
     @Id
@@ -45,4 +39,49 @@ public class Customer extends CommonHistoryEntity {
     @Column(name = "type", nullable = false)
     private CustomerType customerType = CustomerType.INDIVIDUAL;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", address='" + address + '\'' +
+                ", customerType=" + customerType +
+                ", validFrom=" + super.getValidFrom() +
+                ", validTo=" + super.getValidTo() +
+                ", isActive=" + super.getActive() +
+                ", sourceIdentifier=" + super.getSourceIdentifier() +
+                '}';
+    }
 }
