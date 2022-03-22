@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -96,5 +97,22 @@ public class ProductIntTest {
                 .andExpect(jsonPath("$.validTo").isEmpty())
                 .andExpect(jsonPath("$.sourceIdentifier").value(product.getSourceIdentifier()))
                 .andExpect(jsonPath("$.active").value(product.getActive()));
+    }
+
+    @Test
+    @Transactional
+    public void getAllProductsTest() throws Exception {
+        Product product = createProduct();
+        productRepository.save(product);
+
+        mockMvc
+                .perform(get(API)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[*].validFrom").value(hasItem(product.getValidFrom().getTime())))
+                .andExpect(jsonPath("$.[*].validTo").exists())
+                .andExpect(jsonPath("$.[*].sourceIdentifier").value(hasItem(product.getSourceIdentifier())))
+                .andExpect(jsonPath("$.[*].active").value(hasItem(product.getActive())));
     }
 }
