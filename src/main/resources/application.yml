@@ -14,11 +14,32 @@ spring:
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
     # JPA configuration
-    jpa:
-      database-platform: org.hibernate.dialect.MySQLInnoDBDialect
-      database: MYSQL
-      show_sql: false
-      properties:
-        hibernate.cache.use_second_level_cache: false
-        hibernate.cache.use_query_cache: false
-        hibernate.generate_statistics: true
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: MYSQL
+    show_sql: true
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
+      hibernate.format_sql: true
+springdoc:
+  version: '@springdoc.version@'
+  api-docs:
+    path: /v3/api-docs
+  # swagger-ui custom path
+  swagger-ui:
+    path: swagger-ui
+    display-request-duration: true
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    use-root-path: true
+  show-actuator: true
+  group-configs:
+    - group: inheritance
+      paths-to-match: /**
+application-description: '@project.description@'
+application-version=: "@project.version@"
