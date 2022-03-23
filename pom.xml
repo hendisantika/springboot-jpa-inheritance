@@ -11,8 +11,8 @@
     <groupId>com.hendisantika</groupId>
     <artifactId>springboot-jpa-inheritance</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot-jpa-inheritance</name>
-    <description>springboot-jpa-inheritance</description>
+    <name>Spring Boot JPA Inheritance API</name>
+    <description>Spring Boot JPA Inheritance API</description>
     <properties>
         <java.version>11</java.version>
     </properties>

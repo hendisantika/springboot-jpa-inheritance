@@ -2,6 +2,11 @@ package com.hendisantika.controller;
 
 import com.hendisantika.entity.Customer;
 import com.hendisantika.service.CustomerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +27,7 @@ import java.util.Optional;
  * To change this template use File | Settings | File Templates.
  */
 @RestController
+@Tag(name = "Category", description = "Endpoints for managing category")
 @RequestMapping(value = "/api/customer", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CustomerController {
 
@@ -43,6 +49,23 @@ public class CustomerController {
      * @return ResponseEntity with Customer as response body and http status code 201 | 400
      */
     @PostMapping
+    @Operation(
+            summary = "Add New Customer",
+            description = "Add New Customer.",
+            tags = {"Customer"})
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    description = "Success",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            Customer.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Internal error", responseCode = "500"
+                    , content = @Content)
+    }
+    )
     public ResponseEntity<Customer> store(@Valid @RequestBody Customer customer) {
         if (customer.getId() != null) {
             return ResponseEntity.badRequest().body(customer);
@@ -58,6 +81,23 @@ public class CustomerController {
      * @return ResponseEntity with Customer as response body and http status code 200
      */
     @GetMapping(value = "/{id}")
+    @Operation(
+            summary = "Get Customer by ID",
+            description = "Get Customer by ID.",
+            tags = {"Category"})
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    description = "Success",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            Customer.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Internal error", responseCode = "500"
+                    , content = @Content)
+    }
+    )
     public ResponseEntity<Customer> getOneById(@PathVariable Long id) {
         Optional<Customer> customerOptional = customerService.findOne(id);
         return customerOptional
@@ -71,6 +111,23 @@ public class CustomerController {
      * @return ResponseEntity with List of Customer objects as response body and http status code 200
      */
     @GetMapping
+    @Operation(
+            summary = "List All Customers",
+            description = "List All Customers.",
+            tags = {"Category"})
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    description = "Success",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            Customer.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Internal error", responseCode = "500"
+                    , content = @Content)
+    }
+    )
     public ResponseEntity<List<Customer>> getAll() {
         List<Customer> customers = customerService.findAll();
         return Optional.of(customers)
