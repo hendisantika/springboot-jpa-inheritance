@@ -21,3 +21,7 @@ for its value by querying each possible subclass and collecting the results in J
 2. Navigate to he folder: `cd springboot-jpa-inheritance`
 3. Run tha application: `mvn clean spring-boot:run`
 4. Open your favorite browser: http://localhost:8080/swagger-ui
+
+Swagger UI
+
+![Swagger UI](img/SwaggerUI.png "Swagger UI")
