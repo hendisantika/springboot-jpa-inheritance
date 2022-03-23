@@ -27,7 +27,7 @@ import java.util.Optional;
  * To change this template use File | Settings | File Templates.
  */
 @RestController
-@Tag(name = "Category", description = "Endpoints for managing category")
+@Tag(name = "Customer", description = "Endpoints for managing Customer")
 @RequestMapping(value = "/api/customer", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CustomerController {
 
@@ -84,7 +84,7 @@ public class CustomerController {
     @Operation(
             summary = "Get Customer by ID",
             description = "Get Customer by ID.",
-            tags = {"Category"})
+            tags = {"Customer"})
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     description = "Success",
@@ -114,7 +114,7 @@ public class CustomerController {
     @Operation(
             summary = "List All Customers",
             description = "List All Customers.",
-            tags = {"Category"})
+            tags = {"Customer"})
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     description = "Success",
